@@ -19,7 +19,8 @@ async function transferirFundos(client, deContaId, paraContaId, valor) {
                             data: new Date()
                         }
                     }
-                }
+                },
+                {session}
             )
             await contasCollection.updateOne(
                 { _id: ObjectId.createFromHexString(paraContaId) },
@@ -32,7 +33,8 @@ async function transferirFundos(client, deContaId, paraContaId, valor) {
                             data: new Date()
                         }
                     }
-                }
+                },
+                {session}
             )
             
         },{
@@ -42,11 +44,11 @@ async function transferirFundos(client, deContaId, paraContaId, valor) {
         * linearizable - leitura linear. garante consistência
         * available: prioriza a disponibilidade, leitura em outros nós
         * 
-        */
+        
         readConcern: {level: "majority"},
         writeConcern: {w: "majority"},
         maxCommitTimeMS: 5000 //5 seg 
-        })
+        */})
         await session.commitTransaction()
         console.log('Transferência efetuada!')
         return {message: 'Transferência efetuada com sucesso'}
